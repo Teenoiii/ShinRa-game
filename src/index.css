@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.swal2-popup {
+  border-radius: 16px !important;
+}
+
+body {
+  @apply bg-[#0b1020] text-gray-100;
+}
+.gradient-card {
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+}
+/* === RARITY COLORS === */
+.stw-rarity-legendary {
+  border-color: #ffa500;
+  background: linear-gradient(145deg, #3a2a1e, #2a1a0e);
+}
+.stw-rarity-epic {
+  border-color: #9932cc;
+  background: linear-gradient(145deg, #2a1e3a, #1a0e2a);
+}
+.stw-rarity-rare {
+  border-color: #1e90ff;
+  background: linear-gradient(145deg, #1e2a3a, #0e1a2a);
+}
+.stw-rarity-common {
+  border-color: #666;
+  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+}
+
+.stw-rarity-green {
+  border-color: #00d084;
+  background: linear-gradient(145deg, #103628, #0b231c);
+}
+.stw-rarity-red {
+  border-color: #ff4757;
+  background: linear-gradient(145deg, #3a1416, #230b0c);
+}
+.stw-rarity-bronze {
+  border-color: #cd7f32;
+  background: linear-gradient(145deg, #3b2819, #2a1c11);
+}
+.stw-rarity-silver {
+  border-color: #c0c0c0;
+  background: linear-gradient(145deg, #2b2e33, #1b1e22);
+}
+
+.gold-frame {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+/* ใช้ฟอนต์ Kanit ทั้งเว็บ */
+:root {
+  --stw-orange-1: #ffa500;
+  --stw-orange-2: #ff6b35;
+}
+body {
+  font-family: "Kanit", ui-sans-serif, system-ui;
+}
+
+/* พื้นหลังแบบภาพตัวอย่าง */
+body {
+  background: linear-gradient(135deg, #1a1a2e, #0f0f23);
+}
+
+/* กริด/การ์ดสไตล์ Star Town */
+.stw-navbar {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+.stw-logo {
+  color: var(--stw-orange-1);
+}
+.stw-points {
+  background: linear-gradient(45deg, var(--stw-orange-1), var(--stw-orange-2));
+}
+
+.stw-wheel-item {
+  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+  border-radius: 15px;
+  border: 2px solid transparent;
+  min-height: 120px;
+  transition: 0.25s;
+  position: relative;
+}
+.stw-wheel-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+}
+
+.stw-rarity-legendary {
+  border-color: var(--stw-orange-1);
+  background: linear-gradient(145deg, #3a2a1e, #2a1a0e);
+}
+.stw-rarity-epic {
+  border-color: #9932cc;
+  background: linear-gradient(145deg, #2a1e3a, #1a0e2a);
+}
+.stw-rarity-rare {
+  border-color: #1e90ff;
+  background: linear-gradient(145deg, #1e2a3a, #0e1a2a);
+}
+.stw-rarity-common {
+  border-color: #666;
+}
+
+/* ป้ายบนขวา/ดาว */
+.stw-mult {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #000;
+  padding: 5px 10px;
+  background: linear-gradient(45deg, var(--stw-orange-1), var(--stw-orange-2));
+}
+.stw-star {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+}
+
+/* เอฟเฟกต์ตอนกำลังสุ่ม/ได้รางวัล */
+@keyframes spin-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 165, 0, 1);
+    transform: scale(1.05);
+  }
+}
+.stw-spinning {
+  animation: spin-glow 0.1s ease-in-out infinite;
+}
+
+@keyframes winner-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 165, 0, 1);
+    transform: scale(1.1);
+  }
+}
+.stw-selected {
+  animation: winner-glow 1s ease-in-out 3;
+  border-color: var(--stw-orange-1) !important;
+}
+
+/* ปุ่ม START ส้ม */
+.stw-start {
+  background: linear-gradient(45deg, var(--stw-orange-1), var(--stw-orange-2));
+  color: #000;
+  font-weight: 800;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+}
+.stw-start:disabled {
+  background: #666;
+  color: #222;
+}
+
+.swal2-confirm {
+  background: #7c5cff !important;
+  border-radius: 10px !important;
+}
+.swal2-cancel {
+  border-radius: 10px !important;
+}
+.swal2-popup {
+  border-radius: 16px !important;
+}
