@@ -64,42 +64,52 @@ export default function UserHome() {
   }, []);
 
   const spin = async () => {
-    await unlockAudio(); // ปลดล็อก audio (ครั้งแรกพอ)
+    await Audio.unlock(); // ปลดล็อกเสียง (ครั้งแรกพอ)
 
-    let tick; // ใช้เคลียร์ interval เสียงติ๊ก
+    let tickTimer; // เสียงติ๊กระหว่างรอผล
     let step = 0;
 
     try {
       if ((user?.points ?? 0) < SPIN_COST) {
-        errorSound(); // แต้มไม่พอ → ติ้ง error
+        // แต้มไม่พอ → ตุบสั้น ๆ
+        Audio.stopThump();
         showToast("แต้มไม่พอ กรุณาเติมแต้มก่อน", "error");
         return;
       }
 
-      startSpinSound(); // เริ่มหมุน → whoosh สั้น
       setSpinning(true);
       setWinner(null);
 
-      // ออปชัน: ให้มีเสียงติ๊กๆ ระหว่างรอผล (ทุก 120ms)
-      tick = setInterval(() => {
-        tickSound(step++);
+      // เริ่มหมุน → whoosh
+      Audio.startWhoosh();
+
+      // ระหว่างรอผล ให้มีเสียง tick ๆ สร้างความรู้สึกวิ่ง
+      tickTimer = setInterval(() => {
+        Audio.tick();
+        step++;
       }, 120);
 
       const { data } = await api.post("/spin");
 
+      // ดีเลย์ตามที่คุณตั้งไว้ (ปรับได้ตามใจ)
       setTimeout(() => {
-        if (tick) clearInterval(tick);
+        if (tickTimer) clearInterval(tickTimer);
+
         setWinner(data.prize.id);
-        winSound(); // ประกาศรางวัล → arpeggio
         setUser((u) => ({ ...u, points: data.points }));
         showToast(`คุณได้: ${data.prize.name}`, "success");
-        load();
+
+        // ได้รางวัล → jingle
+        Audio.winJingle();
+
+        load(); // refresh history/stock
         setSpinning(false);
-      }, 4000); // คุณตั้งไว้ 4 วินาทีอยู่แล้ว
+      }, 4000); // ถ้าคุณตั้ง 700 เดิม ก็เปลี่ยนเลขนี้ให้ตรง
     } catch (e) {
-      if (tick) clearInterval(tick);
-      errorSound(); // ผิดพลาด → เสียง error
-      showToast(e.response?.data?.error || "Spin failed", "error", 3200);
+      if (tickTimer) clearInterval(tickTimer);
+      // error → ตุบสั้น
+      Audio.stopThump();
+      alert(e.response?.data?.error || "Spin failed");
       setSpinning(false);
     }
   };
