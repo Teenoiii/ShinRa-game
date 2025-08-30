@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import SlotMachine from "../components/SlotMachine";
-import {
-  unlockAudio,
-  startSpinSound,
-  winSound,
-  tickSound,
-  errorSound,
-} from "../lib/audio";
+import Audio from "../lib/audio";
+
 
 export default function UserHome() {
   const nav = useNavigate();
