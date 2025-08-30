@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import SlotMachine from "../components/SlotMachine";
+import {
+  unlockAudio,
+  startSpinSound,
+  winSound,
+  tickSound,
+  errorSound,
+} from "../lib/audio";
 
 export default function UserHome() {
   const nav = useNavigate();
@@ -57,22 +64,41 @@ export default function UserHome() {
   }, []);
 
   const spin = async () => {
+    await unlockAudio(); // ปลดล็อก audio (ครั้งแรกพอ)
+
+    let tick; // ใช้เคลียร์ interval เสียงติ๊ก
+    let step = 0;
+
     try {
       if ((user?.points ?? 0) < SPIN_COST) {
+        errorSound(); // แต้มไม่พอ → ติ้ง error
         showToast("แต้มไม่พอ กรุณาเติมแต้มก่อน", "error");
         return;
       }
+
+      startSpinSound(); // เริ่มหมุน → whoosh สั้น
       setSpinning(true);
       setWinner(null);
+
+      // ออปชัน: ให้มีเสียงติ๊กๆ ระหว่างรอผล (ทุก 120ms)
+      tick = setInterval(() => {
+        tickSound(step++);
+      }, 120);
+
       const { data } = await api.post("/spin");
+
       setTimeout(() => {
+        if (tick) clearInterval(tick);
         setWinner(data.prize.id);
+        winSound(); // ประกาศรางวัล → arpeggio
         setUser((u) => ({ ...u, points: data.points }));
         showToast(`คุณได้: ${data.prize.name}`, "success");
         load();
         setSpinning(false);
-      }, 4000);
+      }, 4000); // คุณตั้งไว้ 4 วินาทีอยู่แล้ว
     } catch (e) {
+      if (tick) clearInterval(tick);
+      errorSound(); // ผิดพลาด → เสียง error
       showToast(e.response?.data?.error || "Spin failed", "error", 3200);
       setSpinning(false);
     }
